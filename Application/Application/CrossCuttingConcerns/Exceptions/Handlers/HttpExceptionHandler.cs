@@ -1,6 +1,5 @@
-﻿using Application.CrossCuttingConcerns.Exceptions.Types;
-using Core.CrossCuttingConcers.Exceptions.HttpProblemDetails;
-using Core.Exceptions.ExceptionProblemDetails;
+﻿using Application.CrossCuttingConcerns.Exceptions.HttpProblemDetails;
+using Application.CrossCuttingConcerns.Exceptions.Types;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;

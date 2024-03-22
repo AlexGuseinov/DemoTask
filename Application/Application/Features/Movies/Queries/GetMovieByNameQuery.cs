@@ -26,15 +26,15 @@ namespace Application.Features.Movies.Queries
                 _mapper = mapper;
             }
 
-            public Task<GetByMovieByNameQueryResponse> Handle(GetMovieByNameQuery request, CancellationToken cancellationToken)
+            public async Task<GetByMovieByNameQueryResponse> Handle(GetMovieByNameQuery request, CancellationToken cancellationToken)
             {
-                MovieModel movieModel = _movieAdapter.GetByName(request.Name);
+                MovieModel movieModel = await _movieAdapter.GetByName(request.Name);
 
                 GetByMovieByNameQueryResponse response = new();
 
                 response.Movie = _mapper.Map<MovieDto>(movieModel);
 
-                return Task.FromResult(response);
+                return response;
             }
         }
     }

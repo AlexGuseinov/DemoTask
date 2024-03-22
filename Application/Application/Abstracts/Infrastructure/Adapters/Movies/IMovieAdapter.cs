@@ -9,6 +9,6 @@ namespace Application.Abstracts.Infrastructure.Adapters.Movies
 {
     public interface IMovieAdapter
     {
-        MovieModel GetByName(string name);
+        Task<MovieModel> GetByName(string name);
     }
 }
