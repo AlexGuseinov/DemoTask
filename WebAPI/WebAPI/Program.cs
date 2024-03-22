@@ -1,4 +1,5 @@
 using Application;
+using Application.CrossCuttingConcerns.Exceptions.Extensions;
 using Infrastructure;
 using Microsoft.OpenApi.Models;
 using Persistence;
@@ -29,6 +30,8 @@ if (app.Environment.IsDevelopment())
 
 
 app.UseHttpsRedirection();
+
+app.UseExceptionHandling();
 
 app.UseAuthorization();
 

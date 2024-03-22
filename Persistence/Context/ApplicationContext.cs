@@ -1,21 +1,29 @@
-﻿using Domain.Entities.Common;
+﻿using Domain.Entities;
+using Domain.Entities.Common;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Persistence.Context
 {
-    public class ApplicationContext :DbContext
+    public class ApplicationContext : DbContext
     {
+        public DbSet<Movie> Movies { get; set; }
+        public DbSet<Watchlist> Watchlists { get; set; }
+        public DbSet<Status> Statuses { get; set; }
+        public DbSet<WatchlistStatus> WatchlistStatuses { get; set; }
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
         public override int SaveChanges()
