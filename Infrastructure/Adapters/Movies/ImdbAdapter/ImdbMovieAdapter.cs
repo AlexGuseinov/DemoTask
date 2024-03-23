@@ -1,7 +1,9 @@
 ﻿using Application.Abstracts.Infrastructure.Adapters.Movies;
 using Application.Abstracts.Infrastructure.Adapters.Movies.Models;
 using AutoMapper;
-using Infrastructure.Adapters.Movies.ImdbAdapter.Models;
+using Infrastructure.Adapters.Movies.ImdbAdapter.Models.ImdbResponses;
+using Infrastructure.Adapters.Movies.ImdbAdapter.Models.OnlineMovieRatingResponse;
+using Infrastructure.Adapters.Movies.ImdbAdapter.Models.OnlneMovieResponses;
 using Infrastructure.Configs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
@@ -11,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Xml.Linq;
 
 namespace Infrastructure.Adapters.Movies.ImdbAdapter
 {
@@ -45,12 +48,51 @@ namespace Infrastructure.Adapters.Movies.ImdbAdapter
             var httpResponse = await client.GetAsync(url);
 
             FindResponse response = HandleHttpResponse<FindResponse>(httpResponse,"IMDB Service");
-
+            
             movieModel = _mapper.Map<MovieModel>(response);
-
+            movieModel.Description = await GetTitleById(response.TitleResults.Results[0].Id);
+            movieModel.Rating = await GetRatingById(response.TitleResults.Results[0].Id);
             return movieModel;
         }
 
+        public Task<MovieModel> GetById(string id)
+        {
+            throw new NotImplementedException();
+        }
 
+
+        private async Task<string> GetTitleById(string id)
+        {
+
+            string url = $"{_onlineMovieDBConfig.BaseUrl}/title/v2/get-plot?tconst={HttpUtility.UrlEncode(id)}";
+            var client  = _httpClientFactory.CreateClient();
+
+            client.DefaultRequestHeaders.Add("X-RapidAPI-Key", _onlineMovieDBConfig.XRapidAPIKey);
+            client.DefaultRequestHeaders.Add("X-RapidAPI-Host", _onlineMovieDBConfig.XRapidAPIHost);
+
+            var httpResponse = await client.GetAsync(url);
+
+            OnlineMovieModel response = HandleHttpResponse<OnlineMovieModel>(httpResponse, "Online Movie Service");
+
+            string result = response.data.title.plot.plotText.plainText;
+            return result;
+        }
+
+        private async Task<double> GetRatingById(string id)
+        {
+            string url = $"{_onlineMovieDBConfig.BaseUrl}/title/v2/get-ratings?tconst={HttpUtility.UrlEncode(id)}";
+            var client = _httpClientFactory.CreateClient();
+
+            client.DefaultRequestHeaders.Add("X-RapidAPI-Key", _onlineMovieDBConfig.XRapidAPIKey);
+            client.DefaultRequestHeaders.Add("X-RapidAPI-Host", _onlineMovieDBConfig.XRapidAPIHost);
+
+            var httpResponse = await client.GetAsync(url);
+
+            OnlineMovieRatingModel response = HandleHttpResponse<OnlineMovieRatingModel>(httpResponse, "Online Movie Service");
+            double result = response.data.title.ratingsSummary.aggregateRating;
+            return result;
+        }
+
+   
     }
 }

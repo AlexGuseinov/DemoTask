@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Adapters.Movies.ImdbAdapter.Models;
+namespace Infrastructure.Adapters.Movies.ImdbAdapter.Models.ImdbResponses;
 
 public class FindResponse
 {
@@ -30,7 +30,7 @@ public class Keywordresults
 
 public class Titleresults
 {
-    public List<Result> Results { get; set; }
+    public Result[] Results { get; set; }
     public string NextCursor { get; set; }
     public bool HasExactMatches { get; set; }
 }

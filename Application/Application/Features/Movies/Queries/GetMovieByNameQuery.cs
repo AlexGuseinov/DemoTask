@@ -28,12 +28,10 @@ namespace Application.Features.Movies.Queries
 
             public async Task<GetByMovieByNameQueryResponse> Handle(GetMovieByNameQuery request, CancellationToken cancellationToken)
             {
-                MovieModel movieModel = await _movieAdapter.GetByName(request.Name);
-
+                MovieModel movieModel = await _movieAdapter.GetByName(request.Name.ToUpper());
                 GetByMovieByNameQueryResponse response = new();
 
                 response.Movie = _mapper.Map<MovieDto>(movieModel);
-
                 return response;
             }
         }

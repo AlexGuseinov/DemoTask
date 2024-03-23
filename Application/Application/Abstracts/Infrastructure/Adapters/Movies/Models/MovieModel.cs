@@ -8,7 +8,7 @@ namespace Application.Abstracts.Infrastructure.Adapters.Movies.Models
 {
     public class MovieModel
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string Poster { get; set; }
