@@ -18,9 +18,6 @@ using System.Xml.Linq;
 
 namespace Infrastructure.Adapters.Movies.ImdbAdapter
 {
-    //https://imdb146.p.rapidapi.com/v1/find/?query=The%20last%20of%20us
-    //https://online-movie-database.p.rapidapi.com/title/v2/get-plot?tconst=tt3581920
-    //https://online-movie-database.p.rapidapi.com/title/v2/get-ratings?tconst=tt3581920
     public class ImdbMovieAdapter : BaseAdapter, IMovieAdapter
     {
         private IMDBConfig _imdbConfig;
@@ -81,7 +78,7 @@ namespace Infrastructure.Adapters.Movies.ImdbAdapter
 
             var httpResponse = await client.GetAsync(url);
 
-            OnlineMovieModel response = HandleHttpResponse<OnlineMovieModel>(httpResponse, "Online Movie Service");
+            OnlineMoviePlotModel response = HandleHttpResponse<OnlineMoviePlotModel>(httpResponse, "Online Movie Service");
 
             string result = response.data.title.plot.plotText.plainText;
             return result;
