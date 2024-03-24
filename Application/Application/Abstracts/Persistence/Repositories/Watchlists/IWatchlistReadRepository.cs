@@ -11,5 +11,6 @@ namespace Application.Abstracts.Persistence.Repositories.Watchlists
     public interface IWatchlistReadRepository : IReadRepository<Watchlist>
     {
         List<Watchlist> GetByUserIdWithInclude(int id);
+        List<Watchlist?> GetMostRatedRecordEachUser();
     }
 }

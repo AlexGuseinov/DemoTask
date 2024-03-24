@@ -1,4 +1,5 @@
-﻿using Application.Features.Watchlists.Commands.AddToWatchlist;
+﻿using Application.Abstracts.Persistence.Services;
+using Application.Features.Watchlists.Commands.AddToWatchlist;
 using Application.Features.Watchlists.Commands.SetWatched;
 using Application.Features.Watchlists.Queries;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,13 @@ namespace WebAPI.Controllers
 {
     public class WatchlistController : BaseController
     {
+        private readonly IWatchlistService _watchlistService;
+
+        public WatchlistController(IWatchlistService watchlistService)
+        {
+            _watchlistService = watchlistService;
+        }
+
         [HttpPost]
         public async Task<IActionResult> Add([FromBody]AddToWatchlistCommand command)
         {

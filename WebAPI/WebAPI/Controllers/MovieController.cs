@@ -1,10 +1,12 @@
 ﻿using Application.Features.Movies.Queries.GetByName;
+using MailService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
     public class MovieController:BaseController
     {
+
         [HttpGet]
         public async Task<IActionResult> GetByName([FromQuery] GetMovieByNameQuery query)
         {

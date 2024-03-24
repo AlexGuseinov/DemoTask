@@ -27,6 +27,7 @@ namespace Persistence
 
             services.AddScoped<IWatchlistWriteRepository, WatchlistWriteRepository>();
             services.AddScoped<IWatchlistReadRepository, WatchlistReadRepository>();
+            services.AddScoped<IWatchlistService, WatchlistManager>();
             services.AddScoped<IMovieReadRepository, MovieReadRepository>();
             services.AddScoped<IMovieWriteRepository, MovieWriteRepository>();
             services.AddScoped<IMovieService, MovieManager>();
