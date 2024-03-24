@@ -10,11 +10,11 @@ namespace Domain.Entities
 {
     public class Watchlist : BaseEntity
     {
-        //name of the film, rating, poster and short description from Wikipedia
         public int UserId { get; set; }
         public int MovieId { get; set; }
         public Movie Movie { get; set; }
-        public List<WatchlistStatus> WatchlistStatuses { get; set; }
+        public int StatusId { get; set; }
+        public Status Status { get; set; }
 
     }
 }

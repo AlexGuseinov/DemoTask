@@ -15,7 +15,6 @@ namespace Persistence.Context
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Watchlist> Watchlists { get; set; }
         public DbSet<Status> Statuses { get; set; }
-        public DbSet<WatchlistStatus> WatchlistStatuses { get; set; }
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
 

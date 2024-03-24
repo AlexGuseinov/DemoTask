@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Persistence.Context;
@@ -11,9 +12,11 @@ using Persistence.Context;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20240324102020_wathclistStatus-check")]
+    partial class wathclistStatuscheck
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -96,14 +99,14 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            CreateDate = new DateTime(2024, 3, 24, 10, 50, 53, 120, DateTimeKind.Utc).AddTicks(5695),
+                            CreateDate = new DateTime(2024, 3, 24, 10, 20, 19, 828, DateTimeKind.Utc).AddTicks(792),
                             IsDeleted = false,
                             Name = "Watched"
                         },
                         new
                         {
                             Id = 2,
-                            CreateDate = new DateTime(2024, 3, 24, 10, 50, 53, 120, DateTimeKind.Utc).AddTicks(5702),
+                            CreateDate = new DateTime(2024, 3, 24, 10, 20, 19, 828, DateTimeKind.Utc).AddTicks(797),
                             IsDeleted = false,
                             Name = "UnWatched"
                         });
@@ -126,9 +129,6 @@ namespace Persistence.Migrations
                     b.Property<int>("MovieId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("StatusId")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("timestamp with time zone");
 
@@ -139,9 +139,39 @@ namespace Persistence.Migrations
 
                     b.HasIndex("MovieId");
 
+                    b.ToTable("Watchlists", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entities.WatchlistStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool?>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("WatchlistId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
                     b.HasIndex("StatusId");
 
-                    b.ToTable("Watchlists", (string)null);
+                    b.HasIndex("WatchlistId");
+
+                    b.ToTable("WatchlistStatuses", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Watchlist", b =>
@@ -152,20 +182,41 @@ namespace Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Status", "Status")
-                        .WithMany()
+                    b.Navigation("Movie");
+                });
+
+            modelBuilder.Entity("Domain.Entities.WatchlistStatus", b =>
+                {
+                    b.HasOne("Domain.Entities.Status", "status")
+                        .WithMany("WatchlistStatuses")
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Movie");
+                    b.HasOne("Domain.Entities.Watchlist", "Watchlist")
+                        .WithMany("WatchlistStatuses")
+                        .HasForeignKey("WatchlistId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Status");
+                    b.Navigation("Watchlist");
+
+                    b.Navigation("status");
                 });
 
             modelBuilder.Entity("Domain.Entities.Movie", b =>
                 {
                     b.Navigation("Watchlists");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Status", b =>
+                {
+                    b.Navigation("WatchlistStatuses");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Watchlist", b =>
+                {
+                    b.Navigation("WatchlistStatuses");
                 });
 #pragma warning restore 612, 618
         }

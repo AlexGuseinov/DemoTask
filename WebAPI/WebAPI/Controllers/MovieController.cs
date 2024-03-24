@@ -1,4 +1,4 @@
-﻿using Application.Features.Movies.Queries;
+﻿using Application.Features.Movies.Queries.GetByName;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers

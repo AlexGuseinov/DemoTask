@@ -17,7 +17,6 @@ namespace Persistence.EntityConfigs
             builder.HasKey(x => x.Id);
             builder.HasQueryFilter(x => x.IsDeleted == false);
             builder.HasOne(x => x.Movie).WithMany(m => m.Watchlists).HasForeignKey(x => x.MovieId);
-
         }
     }
 

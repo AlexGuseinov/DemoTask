@@ -10,12 +10,16 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Movies.MappingProfiles
 {
-    public class MappingProfiles:Profile
+    public class MappingProfiles : Profile
     {
         public MappingProfiles()
         {
-            CreateMap<Movie,MovieDto>().ReverseMap();
-            CreateMap<MovieModel, MovieDto>().ReverseMap();
+            CreateMap<Movie, MovieDto>().ReverseMap();
+            CreateMap<MovieModel, MovieDto>()
+                .ForMember(d => d.ImdbId, opt => opt.MapFrom(s => s.Id));
+            CreateMap<MovieModel, Movie>()
+                .ForMember(d => d.Id, opt => opt.Ignore())
+                .ForMember(d => d.ImdbId, opt => opt.MapFrom(s => s.Id));
         }
     }
 }
